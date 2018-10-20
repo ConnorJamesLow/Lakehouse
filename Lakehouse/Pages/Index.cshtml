@@ -1,9 +1,26 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home Page";
 }
+<!DOCTYPE html>
 
-<div class="row">
-    <a asp-page="/App/Dashboard">Dashboard</a>
-</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @Html.Label("Welcome to Dilt's Lake House") <br />
+        <img src = "http://www.homebunch.com/wp-content/uploads/Lake-House.-Rustic-Lake-House-with-Metal-Roof.-Lake-house-with-metal-roof.-The-metal-roof-is-a-standing-seam-metal-roof.-LakeHouse-RusticHouse-MetalRoof-OLSON-LEWIS-Architects..jpg" alt="Lake House Photo" height="400" width="700"/><br />
+        @Html.Label("Please Login or Register using the links below") <br />
+    </div>
+    <div class="row">
+        <a asp-page="/Login">Login</a>
+    </div>
+    <div class="row">
+        <a asp-page="/Register">Register</a>
+    </div>
+</body>
+</html>

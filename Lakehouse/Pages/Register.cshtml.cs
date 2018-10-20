@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Lakehouse.Pages
 {
-    public class IndexModel : PageModel
+    public class UserModel : PageModel
     {
         public void OnGet()
         {
