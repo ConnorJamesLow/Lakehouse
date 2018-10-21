@@ -1,0 +1,52 @@
+﻿@page
+@model Lakehouse.Pages.App.UserRequestsModel
+@{
+    ViewData["Title"] = "UserRequests";
+}
+
+
+<style>
+
+    td {
+        padding-bottom: 5px;
+
+    }
+
+
+
+    h4 {
+        padding-top: 20px;
+    }
+
+    input[type=checkbox], input[type=radio] {
+        vertical-align: middle;
+        position: relative;
+        bottom: 3px;
+    }
+
+
+</style>
+
+
+
+<h4>User Request List (Select any guest to view their info)</h4>
+
+<table>
+@foreach (var item in Model.Users)
+{
+<tr>
+    <td>
+
+        <input type="checkbox" id="@item.UserId" name="select" value="Approve">
+        <label for="@item.UserId"><a>@item.Name</a></label>
+    </td>
+
+
+</tr>
+}
+ </table>
+<br>
+<a class="btn btn-primary">Approve</a>
+<a class="btn btn-danger">Remove</a><br><br>
+<a href="/Admin/AdminDashboard">Back to Calendar</a>
+
