@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Lakehouse.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Lakehouse.Data_layer;
 
 namespace Lakehouse
 {
@@ -25,9 +21,7 @@ namespace Lakehouse
         {
             services.AddMvc();
 
-            string connString = "Data Source = (localdb)\\ProjectsV13; Initial Catalog = Lakehouse";
-            services.AddDbContext<LakeHouseContext>(options => options.UseSqlServer(connString));
-
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connor")));
 
         }
 

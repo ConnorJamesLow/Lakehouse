@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,17 +8,28 @@ namespace Lakehouse.Models
     public class User
     {
 
+        [HiddenInput]
         public int UserId { get; set; } = -1;
+
         public string Name { get; set; } = "";
+
+        [Phone]
         public string Phone { get; set; } = "";
+
+        [EmailAddress]
         public string Email { get; set; } = "";
+
         public string Password { get; set; }
-        public int Role {get; set; }
+
+        [HiddenInput]
+        public int Role { get; set; } = 0;
+
+        [HiddenInput]
         public DateTime CreationDate { get; set; }
 
-  
+
         [NotMapped]
-        public Role  UserRole
+        public Role UserRole
         {
             get { return ConvertToRole(Role); }
             set { Role = ConvertToInt(value); }
