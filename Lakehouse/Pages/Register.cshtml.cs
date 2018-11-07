@@ -10,12 +10,12 @@ namespace Lakehouse.Pages
 {
     public class RegisterModel : PageModel
     {
-        public RegisterModel(IConfiguration configuration)
+        public RegisterModel(IUserCrud userCrud)
         {
-            _userDb = new UserCrud(configuration);
+            _userDb = userCrud;
         }
 
-        private readonly UserCrud _userDb;
+        private readonly IUserCrud _userDb;
 
 
         [BindProperty]
@@ -30,8 +30,8 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            var dbUser = _userDb.GetByName(SessionUser.Name) ?? new User();
-            if (dbUser.UserId > 0)
+            var dbUser = _userDb.GetByName(SessionUser.Name) ?? null;
+            if (dbUser != null)
             {
                 Message = "Name is already in use.";
                 return Page();

@@ -21,7 +21,9 @@ namespace Lakehouse
         {
             services.AddMvc();
 
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connor")));
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("main")));
+
+            services.AddTransient<IUserCrud, UserCrud>();
 
         }
 

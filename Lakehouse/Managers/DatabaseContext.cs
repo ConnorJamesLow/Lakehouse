@@ -6,12 +6,12 @@ namespace Lakehouse.Managers
 {
     public class DatabaseContext : DbContext
     {
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
 
 
-        public DatabaseContext(IConfiguration configuration)
+        public DatabaseContext()//IConfiguration configuration)
         {
-            _configuration = configuration;
+            //_configuration = configuration;
         }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
@@ -20,13 +20,13 @@ namespace Lakehouse.Managers
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            /*if (!optionsBuilder.IsConfigured)
             {
 
-                string connString = _configuration.GetConnectionString("connor");
+                string connString = _configuration.GetConnectionString("main");
                 optionsBuilder.UseSqlServer(connString);
 
-            }
+            }*/
         }
 
 

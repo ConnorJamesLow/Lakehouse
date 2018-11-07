@@ -5,20 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Lakehouse.Models.ViewModels;
 
 namespace Lakehouse.Pages
 {
     public class LoginModel : PageModel
     {
-        public LoginModel(IConfiguration configuration)
+        public LoginModel(IUserCrud userCrud)
         {
-            _userDb = new UserCrud(configuration);
+            _userDb = userCrud;
         }
 
-        private readonly UserCrud _userDb;
+        private readonly IUserCrud _userDb;
 
         [BindProperty]
-        public User SessionUser { get; set; }
+        public Login SessionUser { get; set; }
 
         public void OnGet()
         {

@@ -7,23 +7,39 @@
 
 <style>
 
+    table {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
     td {
-        padding-bottom: 5px;
+        padding: 10px;
+        text-align: center;
 
     }
 
-
+    th {
+        text-align: center;
+    }
 
     h4 {
         padding-top: 20px;
     }
 
-    input[type=checkbox], input[type=radio] {
-        vertical-align: middle;
-        position: relative;
-        bottom: 3px;
+    .user-text {
+        font-size: 14px;
     }
 
+    .buttonsBlock {
+        display: flex;
+    }
+
+    .left-spacing {
+        margin-left: 5px;
+    }
+    .message-text {
+        color: blue;
+    }
 
 </style>
 
@@ -31,22 +47,43 @@
 
 <h4>User Request List (Select any guest to view their info)</h4>
 
-<table>
-@foreach (var item in Model.Users)
-{
-<tr>
-    <td>
+@if (Model.Message != null) { 
 
-        <input type="checkbox" id="@item.UserId" name="select" value="Approve">
-        <label for="@item.UserId"><a>@item.Name</a></label>
-    </td>
-
-
-</tr>
+    <p class="message-text">@Model.Message</p>
 }
- </table>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Options</th>
+    </tr>
+
+    @foreach (var user in Model.Users)
+    {
+
+    <tr>
+        <td>
+            <a class="user-text">@user.Name</a>
+        </td>
+        <td>
+            @user.UserRole
+        </td>
+        <td class="buttonsBlock">
+            <form method="POST" asp-page-handler="Approve">
+                <input type="hidden" name="userId" id="userId" value="@user.UserId"/>
+                <input type="submit" class="btn btn-primary left-spacing" value="Approve" />
+            </form>
+            <form method="POST" asp-page-handler="Deny">
+                <input type="hidden" name="userId"  id="userId" value="@user.UserId" />
+                <input type="submit" class="btn btn-danger left-spacing" value="Deny" />
+            </form>
+
+        </td>
+
+    </tr>
+    }
+</table>
 <br>
-<a class="btn btn-primary">Approve</a>
-<a class="btn btn-danger">Remove</a><br><br>
 <a href="/Admin/AdminDashboard">Back to Calendar</a>
 

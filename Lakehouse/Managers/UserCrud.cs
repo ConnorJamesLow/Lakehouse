@@ -6,21 +6,32 @@ using Microsoft.Extensions.Configuration;
 
 namespace Lakehouse.Managers
 {
+
+    public interface IUserCrud
+    {
+ 
+        User GetById(int id);
+        User GetByName(string name);
+        IEnumerable<User> GetAll();
+        Boolean Add(User user);
+        Boolean Update(User user);
+        Boolean Delete(int id);
+    }
+
+
+
     //to use userCrud, simply create a default UserCrud class object
     //on the UserCrud class object call the method of your choice
     //if the method returns false, 0 or null a crash has happen
-    public class UserCrud
+    public class UserCrud : IUserCrud
     {
         //this stores the connection to the database
         private DatabaseContext _context { get; set; }
 
         //populate the _connext when this class is created
-        public UserCrud(IConfiguration configuration)
+        public UserCrud(DatabaseContext dbContext)
         {
-            if (_context == null)
-            {
-                _context = new DatabaseContext(configuration);
-            }
+            this._context = dbContext;
         }
 
         //gets the first user that matches with the id in the database
