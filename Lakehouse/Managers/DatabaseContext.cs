@@ -1,14 +1,17 @@
-﻿using System;
-using Lakehouse.Models;
+﻿using Lakehouse.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Lakehouse.Managers
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
-        {
+        private readonly IConfiguration _configuration;
 
+
+        public DatabaseContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
@@ -19,9 +22,10 @@ namespace Lakehouse.Managers
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //string connString = "Data Source = (localdb)\\ProjectsV13; Initial Catalog = Lakehouse";
-                //optionsBuilder.UseSqlServer(connString);
-                Console.WriteLine("UH OH");
+
+                string connString = _configuration.GetConnectionString("connor");
+                optionsBuilder.UseSqlServer(connString);
+
             }
         }
 

@@ -4,16 +4,22 @@ using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Lakehouse.Pages
 {
     public class RegisterModel : PageModel
     {
-        private readonly UserCrud _userDb = new UserCrud();
+        public RegisterModel(IConfiguration configuration)
+        {
+            _userDb = new UserCrud(configuration);
+        }
+
+        private readonly UserCrud _userDb;
 
 
         [BindProperty]
-        public User User { get; set; }
+        public User SessionUser { get; set; }
 
         [BindProperty] public string Message { get; set; } = "";
 
@@ -24,17 +30,17 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            var dbUser = _userDb.GetByName(User.Name) ?? new User();
+            var dbUser = _userDb.GetByName(SessionUser.Name) ?? new User();
             if (dbUser.UserId > 0)
             {
                 Message = "Name is already in use.";
                 return Page();
             }
 
-            User.Password = Hasher.Hash(User.Password);
+            SessionUser.Password = Hasher.Hash(SessionUser.Password);
             await Task.Run(() =>
             {
-                _userDb.Add(User);
+                _userDb.Add(SessionUser);
             });
             return RedirectToPage("/App/Dashboard");
         }

@@ -1,0 +1,13 @@
+﻿@page
+@using Lakehouse.Models
+@model Lakehouse.Pages.App.UserStatusModel
+@{
+    ViewData["Title"] = "UserStatus";
+}
+<!DOCTYPE html>
+@if (Model.User.UserRole == Role.Unconfirmed)
+{
+    <div>
+        <h2>Account Status: <span>Pending</span></h2>
+    </div>
+}
