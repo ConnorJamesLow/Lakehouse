@@ -7,47 +7,47 @@ namespace Lakehouse.Managers
 {
     public class UserCrud
     {
-        private DatabaseContext _context { get; set; }
+        private DatabaseContext Context { get; }
         public UserCrud()
         {
-            if (_context == null)
+            if (Context == null)
             {
-                _context = new DatabaseContext();
+                Context = new DatabaseContext();
             }
         }
 
         public User GetById(int id)
         {
-            return _context.User.FirstOrDefault(e => e.UserId == id);
+            return Context.User.FirstOrDefault(e => e.UserId == id);
         }
 
         public User GetByName(string name)
         {
-            return _context.User.FirstOrDefault(e => e.Name == name);
+            return Context.User.FirstOrDefault(e => e.Name == name);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _context.User.ToList<User>();
+            return Context.User.ToList<User>();
         }
 
         public void Add(User user)
         {
             user.CreationDate = DateTime.Now;
 
-            _context.Add(user);
-            _context.SaveChanges();
+            Context.Add(user);
+            Context.SaveChanges();
         }
 
         public void Update(User user)
         {
             User before = GetById(user.UserId);
-            if (user != null && before != null)
+            if (before != null)
             {
                 user.CreationDate = before.CreationDate;
 
-                _context.Entry(before).CurrentValues.SetValues(user);
-                _context.SaveChanges();
+                Context.Entry(before).CurrentValues.SetValues(user);
+                Context.SaveChanges();
 
             }
         }
@@ -57,8 +57,8 @@ namespace Lakehouse.Managers
             User before = GetById(id);
             if (before != null)
             {
-                _context.Remove(before);
-                _context.SaveChanges();
+                Context.Remove(before);
+                Context.SaveChanges();
 
             }
         }
