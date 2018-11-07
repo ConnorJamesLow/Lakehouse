@@ -19,9 +19,10 @@ namespace Lakehouse.Managers
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //string connString = "Data Source = (localdb)\\ProjectsV13; Initial Catalog = Lakehouse";
-                //optionsBuilder.UseSqlServer(connString);
-                Console.WriteLine("UH OH");
+
+                    string connString = "Data Source = (localdb)\\ProjectsV13; Initial Catalog = Lakehouse";
+                    optionsBuilder.UseSqlServer(connString);
+
             }
         }
 
