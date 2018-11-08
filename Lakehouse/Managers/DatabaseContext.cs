@@ -31,5 +31,6 @@ namespace Lakehouse.Managers
 
 
         public DbSet<User> User { get; set; }
+        public DbSet<Reservation> Reservation { get; set; }
     }
 }
