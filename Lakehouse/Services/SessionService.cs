@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Lakehouse.Models;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Lakehouse.Services
 {
@@ -10,6 +8,21 @@ namespace Lakehouse.Services
     {
         public static ISession Session { get; set; }
 
+        public SessionService(ISession session)
+        {
+            Session = session;
+        }
 
+        public void SetUser(User user)
+        {
+            Session.SetString("user", JsonConvert.SerializeObject(user));
+        }
+
+        public User GetUser()
+        {
+            string json = Session.GetString("user");
+            User user = JsonConvert.DeserializeObject<User>(json);
+            return user;
+        }
     }
 }

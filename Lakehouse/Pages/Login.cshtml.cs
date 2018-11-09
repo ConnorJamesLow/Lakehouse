@@ -13,9 +13,11 @@ namespace Lakehouse.Pages
         public LoginModel(IConfiguration configuration)
         {
             _userDb = new UserCrud(configuration);
+            _session = new SessionService(HttpContext.Session);
         }
 
         private readonly UserCrud _userDb;
+        private readonly SessionService _session;
 
         [BindProperty]
         public User SessionUser { get; set; }
@@ -34,8 +36,12 @@ namespace Lakehouse.Pages
 
             var dbUser = _userDb.GetByName(SessionUser.Name);
             var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
-
-            return authenticated ? (IActionResult) RedirectToPage("/App/Dashboard") : Page();
+            if (authenticated)
+            {
+                _session.SetUser(SessionUser);
+                return RedirectToPage("/App/Dashboard");
+            }
+            return Page();
         }
     }
 }
