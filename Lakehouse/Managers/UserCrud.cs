@@ -6,21 +6,32 @@ using Microsoft.Extensions.Configuration;
 
 namespace Lakehouse.Managers
 {
+
+    public interface IUserCrud
+    {
+ 
+        User GetById(int id);
+        User GetByName(string name);
+        IEnumerable<User> GetAll();
+        Boolean Add(User user);
+        Boolean Update(User user);
+        Boolean Delete(int id);
+    }
+
+
+
     //to use userCrud, simply create a default UserCrud class object
     //on the UserCrud class object call the method of your choice
     //if the method returns false, 0 or null a crash has happen
-    public class UserCrud
+    public class UserCrud : IUserCrud
     {
         //this stores the connection to the database
         private DatabaseContext _context { get; set; }
 
         //populate the _connext when this class is created
-        public UserCrud(IConfiguration configuration)
+        public UserCrud(DatabaseContext dbContext)
         {
-            if (_context == null)
-            {
-                _context = new DatabaseContext(configuration);
-            }
+            this._context = dbContext;
         }
 
         //gets the first user that matches with the id in the database
@@ -32,11 +43,15 @@ namespace Lakehouse.Managers
                 return _context.User.FirstOrDefault(e => e.UserId == id);
 
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
 
                 throw new Exception("invalid ID of" + id + " when calling GetByID method in class UserCrud");
@@ -51,11 +66,15 @@ namespace Lakehouse.Managers
             {
                 return _context.User.FirstOrDefault(e => e.Name == name);
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
 
                 throw new Exception("invalid name of" + name + " when calling GetByName method in class UserCrud");
@@ -70,11 +89,15 @@ namespace Lakehouse.Managers
             {
                 return _context.User.ToList<User>();
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
 
                 throw new Exception("GetAll method in class UserCrud has crashed. Make sure there is users in the database");
@@ -94,11 +117,15 @@ namespace Lakehouse.Managers
 
                 return true;
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 String message = "invalid User that has";
                 if (user.Name == null)
@@ -165,11 +192,15 @@ namespace Lakehouse.Managers
                     return true;
                 }
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 String message = "invalid User that has";
                 if (user.Name == null)

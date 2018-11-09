@@ -9,15 +9,16 @@ namespace Lakehouse.Models
     {
 
         [HiddenInput]
-        public int UserId { get; set; } = -1;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
 
-        public string Name { get; set; } = "";
+        public string Name { get; set; }
 
         [Phone]
-        public string Phone { get; set; } = "";
+        public string Phone { get; set; }
 
         [EmailAddress]
-        public string Email { get; set; } = "";
+        public string Email { get; set; }
 
         public string Password { get; set; }
 

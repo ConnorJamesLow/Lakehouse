@@ -1,26 +1,25 @@
 ﻿using Lakehouse.Managers;
-using Lakehouse.Models;
+using Lakehouse.Models.ViewModels;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace Lakehouse.Pages
 {
     public class LoginModel : PageModel
     {
-        public LoginModel(IConfiguration configuration)
+        public LoginModel(IUserCrud userCrud)
         {
-            _userDb = new UserCrud(configuration);
+            _userDb = userCrud;
             _session = new SessionService(HttpContext.Session);
         }
 
-        private readonly UserCrud _userDb;
         private readonly SessionService _session;
+        private readonly IUserCrud _userDb;
 
         [BindProperty]
-        public User SessionUser { get; set; }
+        public Login SessionUser { get; set; }
 
         public void OnGet()
         {
@@ -38,7 +37,7 @@ namespace Lakehouse.Pages
             var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
             if (authenticated)
             {
-                _session.SetUser(SessionUser);
+                _session.SetUser(dbUser);
                 return RedirectToPage("/App/Dashboard");
             }
             return Page();
