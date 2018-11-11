@@ -13,7 +13,7 @@ namespace Lakehouse.Pages
         public RegisterModel(IUserCrud userCrud)
         {
             _userDb = userCrud;
-            _session = new SessionService(HttpContext.Session);
+            _session = new SessionService();
         }
 
         private readonly SessionService _session;
@@ -44,7 +44,7 @@ namespace Lakehouse.Pages
             {
                 _userDb.Add(SessionUser);
             });
-            _session.SetUser(SessionUser);
+            _session.SetUser(SessionUser, HttpContext.Session);
             return RedirectToPage("/App/Dashboard");
         }
     }
