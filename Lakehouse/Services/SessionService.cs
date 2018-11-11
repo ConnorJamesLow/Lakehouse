@@ -8,10 +8,6 @@ namespace Lakehouse.Services
     public class SessionService
     {
 
-        public SessionService()
-        {
-        }
-
         public void SetUser(User user, ISession session)
         {
             session.SetString("user", JsonConvert.SerializeObject(user));

@@ -15,7 +15,6 @@
     td {
         padding: 10px;
         text-align: center;
-
     }
 
     th {
@@ -37,53 +36,57 @@
     .left-spacing {
         margin-left: 5px;
     }
+
     .message-text {
         color: blue;
     }
-
 </style>
 
 
 
 <h4>User Request List (Select any guest to view their info)</h4>
 
-@if (Model.Message != null) { 
+@if (Model.Message != null)
+{
 
     <p class="message-text">@Model.Message</p>
 }
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Options</th>
-    </tr>
+@if (Model.Users != null)
+{ 
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Options</th>
+        </tr>
 
-    @foreach (var user in Model.Users)
-    {
+        @foreach (var user in Model.Users)
+        {
 
-    <tr>
-        <td>
-            <a class="user-text">@user.Name</a>
-        </td>
-        <td>
-            @user.UserRole
-        </td>
-        <td class="buttonsBlock">
-            <form method="POST" asp-page-handler="Approve">
-                <input type="hidden" name="userId" id="userId" value="@user.UserId"/>
-                <input type="submit" class="btn btn-primary left-spacing" value="Approve" />
-            </form>
-            <form method="POST" asp-page-handler="Deny">
-                <input type="hidden" name="userId"  id="userId" value="@user.UserId" />
-                <input type="submit" class="btn btn-danger left-spacing" value="Deny" />
-            </form>
+            <tr>
+                <td>
+                    <a class="user-text">@user.Name</a>
+                </td>
+                <td>
+                    @user.UserRole
+                </td>
+                <td class="buttonsBlock">
+                    <form method="POST" asp-page-handler="Approve">
+                        <input type="hidden" name="userId" id="userId" value="@user.UserId" />
+                        <input type="submit" class="btn btn-primary left-spacing" value="Approve" />
+                    </form>
+                    <form method="POST" asp-page-handler="Deny">
+                        <input type="hidden" name="userId" id="userId" value="@user.UserId" />
+                        <input type="submit" class="btn btn-danger left-spacing" value="Deny" />
+                    </form>
 
-        </td>
+                </td>
 
-    </tr>
-    }
-</table>
+            </tr>
+        }
+    </table>
+}
 <br>
-<a href="/Admin/AdminDashboard">Back to Calendar</a>
+<a href="/Admin/AdminDashboard">Back to Dashboard</a>
 

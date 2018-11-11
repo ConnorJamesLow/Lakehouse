@@ -34,6 +34,7 @@ namespace Lakehouse
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("main")));
 
             services.AddTransient<IUserCrud, UserCrud>();
+            services.AddTransient<IReservationCrud, ReservationCrud>();
 
         }
 

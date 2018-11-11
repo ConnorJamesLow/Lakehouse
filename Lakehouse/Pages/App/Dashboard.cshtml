@@ -6,5 +6,23 @@
 }
 
 <h2>Dashboard</h2>
+<ul>
+    <li>
+        <a asp-page="/Index">Index</a>
+    </li>
 
-<a asp-page="/Index">Index</a>
+    @if (Model.UserSession != null)
+    {
+
+        if (Model.isHost)
+        {
+            
+            <li>
+                <a asp-page="/Admin/AdminDashboard">Host Dashboard</a>
+            </li>
+        }
+
+
+    }
+
+</ul>
