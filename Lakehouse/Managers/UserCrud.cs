@@ -127,7 +127,7 @@ namespace Lakehouse.Managers
             catch (Exception e)
 #pragma warning restore CS0168 // Variable is declared but never used
             {
-                String message = "invalid User that has";
+                String message = "invalid SessionUser that has";
                 if (user.Name == null)
                 {
                     message += "Name = null, ";
@@ -202,7 +202,7 @@ namespace Lakehouse.Managers
             catch (Exception e)
 #pragma warning restore CS0168 // Variable is declared but never used
             {
-                String message = "invalid User that has";
+                String message = "invalid SessionUser that has";
                 if (user.Name == null)
                 {
                     message += "Name = null, ";
