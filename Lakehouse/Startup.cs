@@ -1,6 +1,5 @@
 using System;
 using Lakehouse.Managers;
-using Lakehouse.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,16 +27,13 @@ namespace Lakehouse
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("main")));
-
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connor")));
 
             services.AddTransient<IUserCrud, UserCrud>();
-            services.AddTransient<IReservationCrud, ReservationCrud>();
-
 
         }
 

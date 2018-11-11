@@ -12,7 +12,7 @@ namespace Lakehouse.Pages
         public LoginModel(IUserCrud userCrud)
         {
             _userDb = userCrud;
-            _session = new SessionService(HttpContext.Session);
+            _session = new SessionService();
         }
 
         private readonly SessionService _session;
@@ -37,7 +37,7 @@ namespace Lakehouse.Pages
             var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
             if (authenticated)
             {
-                _session.SetUser(dbUser);
+                _session.SetUser(dbUser, HttpContext.Session);
                 return RedirectToPage("/App/Dashboard");
             }
             return Page();

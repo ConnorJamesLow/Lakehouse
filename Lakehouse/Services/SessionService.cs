@@ -6,21 +6,19 @@ namespace Lakehouse.Services
 {
     public class SessionService
     {
-        public static ISession Session { get; set; }
 
-        public SessionService(ISession session)
+        public SessionService()
         {
-            Session = session;
         }
 
-        public void SetUser(User user)
+        public void SetUser(User user, ISession session)
         {
-            Session.SetString("user", JsonConvert.SerializeObject(user));
+            session.SetString("user", JsonConvert.SerializeObject(user));
         }
 
-        public User GetUser()
+        public User GetUser(ISession session)
         {
-            string json = Session.GetString("user");
+            string json = session.GetString("user");
             User user = JsonConvert.DeserializeObject<User>(json);
             return user;
         }
