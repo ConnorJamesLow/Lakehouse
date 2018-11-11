@@ -1,0 +1,17 @@
+﻿@page
+@model Lakehouse.Pages.App.ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h2>Error</h2>
+
+
+<h3 style="color: red">
+
+    @Model.Error
+
+</h3>
+
+
+<a asp-page="/Index">Index</a>

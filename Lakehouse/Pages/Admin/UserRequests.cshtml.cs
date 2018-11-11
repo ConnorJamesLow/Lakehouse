@@ -26,7 +26,7 @@ namespace Lakehouse.Pages.App
         public UserRequestsModel(DatabaseContext context)
         {
             this._context = context;
-            _session = new SessionService(HttpContext.Session);
+            _session = new SessionService();
         }
 
 
@@ -38,7 +38,7 @@ namespace Lakehouse.Pages.App
                 return Page();
             } else
             {
-                return RedirectToPage("/App/Error");
+                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
             }
         }
 
@@ -72,7 +72,7 @@ namespace Lakehouse.Pages.App
             }
             else
             {
-                return RedirectToPage("/App/Error");
+                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
             }
         }
 
@@ -106,7 +106,7 @@ namespace Lakehouse.Pages.App
             }
             else
             {
-                return RedirectToPage("/App/Error");
+                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
             }
         }
 
@@ -118,7 +118,7 @@ namespace Lakehouse.Pages.App
 
         public bool isHost()
         {
-            User user = _session.GetUser();    
+            User user = _session.GetUser(HttpContext.Session);
 
             return user?.UserRole == Role.Host;
 

@@ -19,8 +19,11 @@ namespace Lakehouse.Services
         public User GetUser(ISession session)
         {
             string json = session.GetString("user");
-            User user = JsonConvert.DeserializeObject<User>(json);
-            return user;
+
+            if (json != null)
+                return JsonConvert.DeserializeObject<User>(json);
+
+            return null;
         }
     }
 }
