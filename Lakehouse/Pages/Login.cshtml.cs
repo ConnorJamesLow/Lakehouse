@@ -38,7 +38,7 @@ namespace Lakehouse.Pages
             if (authenticated)
             {
                 _session.SetUser(dbUser, HttpContext.Session);
-                return RedirectToPage("/App/Dashboard");
+                return RedirectToPage("/App/UserStatus");
             }
             return Page();
         }
