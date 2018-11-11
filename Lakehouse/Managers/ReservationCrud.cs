@@ -16,7 +16,7 @@ namespace Lakehouse.Managers
         Boolean Delete(int id);
     }
 
-    public class ReservationCrud
+    public class ReservationCrud : IReservationCrud
     {
         //this stores the connection to the database
         private DatabaseContext _context { get; set; }

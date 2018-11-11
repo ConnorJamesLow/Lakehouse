@@ -1,5 +1,6 @@
 using System;
 using Lakehouse.Managers;
+using Lakehouse.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,6 @@ namespace Lakehouse
         {
             services.AddMvc();
 
-<<<<<<< HEAD
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -32,12 +32,12 @@ namespace Lakehouse
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connor")));
-=======
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("main")));
 
+
             services.AddTransient<IUserCrud, UserCrud>();
->>>>>>> 32743a48559f1d9741f57d25fac9a3769084c92d
+            services.AddTransient<IReservationCrud, ReservationCrud>();
+
 
         }
 
