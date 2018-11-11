@@ -89,15 +89,11 @@ namespace Lakehouse.Managers
             {
                 return _context.User.ToList<User>();
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
 
                 throw new Exception("GetAll method in class UserCrud has crashed. Make sure there is users in the database");
@@ -117,15 +113,11 @@ namespace Lakehouse.Managers
 
                 return true;
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (System.Data.SqlClient.SqlException sqlEx)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception e)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
                 String message = "invalid SessionUser that has";
                 if (user.Name == null)
@@ -171,7 +163,7 @@ namespace Lakehouse.Managers
                 {
                     message += "Creation date = " + user.CreationDate + ". ";
                 }
-                message += "when calling Add method in class UserCrud";
+                message += "when calling Add method in class UserCrud: " + e;
                 throw new Exception(message);
             }
         }

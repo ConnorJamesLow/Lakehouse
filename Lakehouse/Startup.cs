@@ -55,5 +55,6 @@ namespace Lakehouse
             app.UseSession();
             app.UseMvc();
         }
+
     }
 }

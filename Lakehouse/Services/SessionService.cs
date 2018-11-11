@@ -15,7 +15,7 @@ namespace Lakehouse.Services
 
         public User GetUser(ISession session)
         {
-            string json = session.GetString("user") ?? JsonConvert.SerializeObject(new User());
+            string json = session.GetString("user");
             try
             {
 
@@ -25,7 +25,7 @@ namespace Lakehouse.Services
             catch (JsonException e)
             {
                 Console.WriteLine(e);
-                return new User();
+                return null;
             }
         }
 
