@@ -1,4 +1,5 @@
 ﻿using Lakehouse.Managers;
+using Lakehouse.Models;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,12 +33,17 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            var dbUser = _userDb.GetByName(SessionUser.Name);
+            var dbUser = _userDb.GetByName(SessionUser.Name) ?? new User();
             var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
             if (authenticated)
             {
                 _session.SetUser(dbUser, HttpContext.Session);
-                return RedirectToPage("/App/UserStatus");
+                switch (dbUser.UserRole)
+                {
+                    case Role.Host: return RedirectToPage("/Admin/AdminDashboard");
+                    case Role.Guest: return RedirectToPage("/App/Dashboard");
+                    default: return RedirectToPage("/App/UserStatus");
+                }
             }
             return Page();
         }
