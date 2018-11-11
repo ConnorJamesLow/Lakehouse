@@ -33,11 +33,15 @@ namespace Lakehouse.Pages
             }
 
             var dbUser = _userDb.GetByName(SessionUser.Name);
-            var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
-            if (authenticated)
+
+            if (dbUser != null)
             {
-                _session.SetUser(dbUser, HttpContext.Session);
-                return RedirectToPage("/App/UserStatus");
+                var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
+                if (authenticated)
+                {
+                    _session.SetUser(dbUser, HttpContext.Session);
+                    return RedirectToPage("/App/UserStatus");
+                } 
             }
             return Page();
         }
