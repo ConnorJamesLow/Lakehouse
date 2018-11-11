@@ -2,11 +2,18 @@
 using Lakehouse.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lakehouse.Services
 {
     public class SessionService
     {
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Password { get; set; }
 
         public void SetUser(User user, ISession session)
         {

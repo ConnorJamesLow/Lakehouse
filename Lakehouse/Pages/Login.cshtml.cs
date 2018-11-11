@@ -1,5 +1,4 @@
 ﻿using Lakehouse.Managers;
-using Lakehouse.Models.ViewModels;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,7 +18,7 @@ namespace Lakehouse.Pages
         private readonly IUserCrud _userDb;
 
         [BindProperty]
-        public Login SessionUser { get; set; }
+        public SessionService SessionUser { get; set; }
 
         public void OnGet()
         {
