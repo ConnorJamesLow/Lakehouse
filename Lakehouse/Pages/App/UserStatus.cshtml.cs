@@ -16,7 +16,8 @@ namespace Lakehouse.Pages.App
         public User SessionUser { get; set; }
         public void OnGet()
         {
-            if (_session.GetUser(HttpContext.Session) == null)
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null)
             {
                 RedirectToPage("Login");
             }
