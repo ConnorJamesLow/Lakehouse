@@ -10,7 +10,7 @@ namespace Lakehouse.Models
 
         [HiddenInput]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; } = -1;
+        public int UserId { get; set; }
 
         public string Name { get; set; }
 

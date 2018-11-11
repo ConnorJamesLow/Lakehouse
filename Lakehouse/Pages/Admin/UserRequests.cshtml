@@ -1,7 +1,8 @@
 ﻿@page
 @model Lakehouse.Pages.App.UserRequestsModel
 @{
-    ViewData["Title"] = "UserRequests";
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Pages/Admin/_AdminLayout.cshtml";
 }
 
 
@@ -53,7 +54,7 @@
 }
 
 @if (Model.Users != null)
-{ 
+{
     <table>
         <tr>
             <th>Name</th>
