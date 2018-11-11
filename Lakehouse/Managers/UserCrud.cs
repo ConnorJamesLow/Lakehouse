@@ -106,6 +106,7 @@ namespace Lakehouse.Managers
         {
             try
             {
+
                 user.CreationDate = DateTime.Now;
 
                 _context.Add(user);
