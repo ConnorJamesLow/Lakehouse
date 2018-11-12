@@ -23,7 +23,7 @@ namespace Lakehouse.Services
                 User user = JsonConvert.DeserializeObject<User>(json);
                 return user;
             }
-            catch (JsonException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return null;
