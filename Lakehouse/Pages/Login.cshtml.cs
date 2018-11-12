@@ -3,6 +3,7 @@ using Lakehouse.Models;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Lakehouse.Pages
@@ -18,8 +19,16 @@ namespace Lakehouse.Pages
         private readonly SessionService _session;
         private readonly IUserCrud _userDb;
 
+        [Required]
         [BindProperty]
-        public SessionService SessionUser { get; set; }
+        public string Name { get; set; }
+
+        [Required]
+        [BindProperty]
+        public string Password { get; set; }
+
+        [BindProperty]
+        public string Message { get; set; }
 
         public void OnGet()
         {
@@ -33,8 +42,13 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            var dbUser = _userDb.GetByName(SessionUser.Name) ?? new User();
-            var authenticated = await Task.Run(() => Hasher.Compare(SessionUser.Password, dbUser.Password));
+            var dbUser = _userDb.GetByName(Name);
+            if (dbUser == null)
+            {
+                Message = "Credentials did not match any users.";
+                return Page();
+            }
+            var authenticated = await Task.Run(() => Hasher.Compare(Password, dbUser.Password));
             if (authenticated)
             {
                 _session.SetUser(dbUser, HttpContext.Session);
@@ -45,6 +59,7 @@ namespace Lakehouse.Pages
                     default: return RedirectToPage("/App/UserStatus");
                 }
             }
+            Message = "Credentials did not match any users.";
             return Page();
         }
     }

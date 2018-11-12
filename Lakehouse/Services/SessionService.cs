@@ -9,12 +9,6 @@ namespace Lakehouse.Services
     public class SessionService
     {
 
-        [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
         public void SetUser(User user, ISession session)
         {
             session.SetString("user", JsonConvert.SerializeObject(user));
