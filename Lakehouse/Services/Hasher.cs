@@ -44,24 +44,33 @@ namespace Lakehouse.Services
         /// <returns>True if the hashed value matches the raw value</returns>
         public static bool Compare(string raw, string hashedValue)
         {
-            // Extract the bytes
-            byte[] hashBytes = Convert.FromBase64String(hashedValue);
-
-            // Get the salt 
-            byte[] salt = new byte[16];
-            Array.Copy(hashBytes, 0, salt, 0, 16);
-
-            // Compute the hash on the password the user entered 
-            var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
-            byte[] hash = pbkdf2.GetBytes(20);
-
-            // Compare the results 
-            for (int i = 0; i < 20; i++)
+            try
             {
-                if (hashBytes[i + 16] != hash[i])
+
+                // Extract the bytes
+                byte[] hashBytes = Convert.FromBase64String(hashedValue);
+
+                // Get the salt 
+                byte[] salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+
+                // Compute the hash on the password the user entered 
+                var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
+                byte[] hash = pbkdf2.GetBytes(20);
+
+                // Compare the results 
+                for (int i = 0; i < 20; i++)
                 {
-                    return false;
+                    if (hashBytes[i + 16] != hash[i])
+                    {
+                        return false;
+                    }
                 }
+            }
+            catch (ArgumentNullException e)
+            {
+                ConsoleLogger.Out("No password");
+                return false;
             }
 
             return true;
