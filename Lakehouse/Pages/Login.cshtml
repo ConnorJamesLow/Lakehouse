@@ -3,51 +3,42 @@
 @{
     ViewData["Title"] = "Login";
 }
-<!DOCTYPE html>
+<form method="post">
+    @Html.AntiForgeryToken()
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-</head>
-<body>
-    <form method="post">
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>Login</h4>
-            <hr />
-            <span asp-validation-for="User"></span>
-            <div class="form-group">
-                <label asp-for="SessionUser.Name" class="control-label col-md-2"></label>
-                <div class="col-md-10">
-                    <input asp-for="SessionUser.Name" class="form-control" />
-                    <span asp-validation-for="SessionUser.Name" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="SessionUser.Password" class="control-label col-md-2"></label>
-                <div class="col-md-10">
-                    <input asp-for="SessionUser.Password" class="form-control" />
-                    <span asp-validation-for="SessionUser.Password" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Login" class="btn btn-default" />
-                </div>
+    <div class="form-horizontal">
+        <h4>Login</h4>
+        <hr />
+        <span>@Model.Message</span>
+        <span asp-validation-for="User"></span>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-    </form>
 
-    <div class="row">
-        <a asp-page="/Register">Not registered yet?</a>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Login" class="btn btn-default" />
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <a asp-page="/Index">Dashboard</a>
-    </div>
-</body>
-</html>
+</form>
+
+<div class="row">
+    <a asp-page="/Register">Not registered yet?</a>
+</div>
+<div class="row">
+    <a asp-page="/Index">Dashboard</a>
+</div>
 

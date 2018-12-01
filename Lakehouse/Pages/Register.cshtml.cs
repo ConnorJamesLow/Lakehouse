@@ -45,7 +45,7 @@ namespace Lakehouse.Pages
                 _userDb.Add(SessionUser);
             });
             _session.SetUser(SessionUser, HttpContext.Session);
-            return RedirectToPage("/App/Dashboard");
+            return RedirectToPage("/App/UserStatus");
         }
     }
 }

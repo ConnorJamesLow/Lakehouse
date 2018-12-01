@@ -1,15 +1,13 @@
-﻿using Lakehouse.Models;
+﻿using System;
+using Lakehouse.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lakehouse.Services
 {
     public class SessionService
     {
-
-        public SessionService()
-        {
-        }
 
         public void SetUser(User user, ISession session)
         {
@@ -19,11 +17,23 @@ namespace Lakehouse.Services
         public User GetUser(ISession session)
         {
             string json = session.GetString("user");
+            try
+            {
 
-            if (json != null)
-                return JsonConvert.DeserializeObject<User>(json);
+                User user = JsonConvert.DeserializeObject<User>(json);
+                return user;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
 
-            return null;
+        public void Clear(ISession session)
+        {
+            session.SetString("user", "");
+            session.Clear();
         }
     }
 }

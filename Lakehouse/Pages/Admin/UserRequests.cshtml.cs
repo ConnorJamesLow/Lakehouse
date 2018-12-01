@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Lakehouse.Managers;
+﻿using Lakehouse.Managers;
 using Lakehouse.Models;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Lakehouse.Pages.App
+namespace Lakehouse.Pages.Admin
 {
     public class UserRequestsModel : PageModel
     {
@@ -17,15 +14,15 @@ namespace Lakehouse.Pages.App
 
         public List<User> Users { get; set; }
 
-        private DatabaseContext _context { get; set; }
+        private readonly DatabaseContext _context;
 
         public string Message { get; set; }
 
-        public SessionService _session;
+        private readonly SessionService _session;
 
         public UserRequestsModel(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
             _session = new SessionService();
         }
 
@@ -36,10 +33,8 @@ namespace Lakehouse.Pages.App
             {
                 getUsers();
                 return Page();
-            } else
-            {
-                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
             }
+            return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
 
@@ -70,10 +65,7 @@ namespace Lakehouse.Pages.App
                 getUsers();
                 return Page();
             }
-            else
-            {
-                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
-            }
+            return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
         public IActionResult OnPostDeny(int userId)
@@ -104,22 +96,18 @@ namespace Lakehouse.Pages.App
                 getUsers();
                 return Page();
             }
-            else
-            {
-                return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
-            }
+            return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
         public void getUsers()
         {
-            Users = _context.User.Where(u => u.UserRole == Role.Unconfirmed || u.UserRole == Role.Denied).ToList<User>();
+            Users = _context.User.Where(u => u.UserRole == Role.Unconfirmed).ToList<User>();
 
         }
 
         public bool isHost()
         {
             User user = _session.GetUser(HttpContext.Session);
-
             return user?.UserRole == Role.Host;
 
         }
