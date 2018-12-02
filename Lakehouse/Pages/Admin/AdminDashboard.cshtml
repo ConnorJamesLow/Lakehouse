@@ -94,16 +94,35 @@
 
         <script>
 
-            $(document).ready(function () {
+            $(document).ready(function() {
 
                 var today = new Date();
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+                var convert = (date) => {
+
+                    date = date.substring(0, date.indexOf(" "));
+                    date = date.split('/');
+
+
+                    return date[2] + '-' + date[0] + '-' + date[1];
+
+                }
+
+                var reservations = [];
+
+                @foreach (var r in Model.Reservations)
+                {
+                    @:reservations.push({ title: "Reservation - @r.User.Name", start: convert("@r.StartDate"), end: convert("@r.EndDate")});
+                }
+                console.log(reservations);
 
                 $('#calendar').fullCalendar({
                     defaultDate: date,
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
-                    events: [
+                    events: reservations
+                    /*events: [
                         {
                             title: 'All Day Event',
                             start: '2018-10-01'
@@ -158,7 +177,7 @@
                             url: 'http://google.com/',
                             start: '2018-10-28'
                         }
-                    ]
+                    ]*/
                 });
 
             });

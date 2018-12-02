@@ -12,4 +12,13 @@ namespace Lakehouse.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
+
+
+    public class ReservationWithUser : Reservation
+    {
+
+        public User User { get; set; }
+
+
+    }
 }

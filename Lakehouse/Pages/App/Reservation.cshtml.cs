@@ -66,7 +66,7 @@ namespace Lakehouse.Pages.App
                 try
                 {
                     var reservation = _reservations.GetById(Id);
-                    if (reservation.UserId > 0)
+                    if (reservation?.UserId > 0)
                     {
                         StartDate = DateTime.Today;
                         EndDate = DateTime.Today;
@@ -102,6 +102,7 @@ namespace Lakehouse.Pages.App
                 Message = "Invalid data";
                 return Page();
             }
+            SessionUser = _session.GetUser(HttpContext.Session);
             var reservation = new Reservation
             {
                 UserId = SessionUser.UserId,

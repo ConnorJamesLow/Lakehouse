@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lakehouse.Managers;
 using Lakehouse.Models;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,17 @@ namespace Lakehouse.Pages.App
     public class AdminDashboardModel : PageModel
     {
 
+
         public SessionService _session;
+        private readonly IReservationCrud _reservations;
+        private readonly IUserCrud _users;
+        public List<ReservationWithUser> Reservations { get; set; }
 
-        public AdminDashboardModel()
+
+        public AdminDashboardModel(IReservationCrud rCrud, IUserCrud uCrud)
         {
-
+            _users = uCrud;
+            _reservations = rCrud;
             _session = new SessionService();
         }
 
@@ -26,8 +33,19 @@ namespace Lakehouse.Pages.App
         {
 
             //verify user is admin
-            if (isHost())
+            if (IsHost())
             {
+
+                Reservations = _reservations.GetAll().Select(reservation => new ReservationWithUser
+                {
+                    ReservationId = reservation.ReservationId,
+                    UserId = reservation.UserId,
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                    User = _users.GetById(reservation.UserId)
+
+                }).ToList();
+
 
                 return Page();
             }
@@ -37,7 +55,7 @@ namespace Lakehouse.Pages.App
 
 
 
-        public bool isHost()
+        public bool IsHost()
         {
             User user = _session.GetUser(HttpContext.Session);
 
