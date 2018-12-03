@@ -5,54 +5,44 @@
 }
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Register</title>
-</head>
-<body>
+<div class="container">
 
-    @Html.AntiForgeryToken()
+    <h4>Register</h4>
+    <hr/>
 
-    <div class="form-horizontal">
-        <h4>Register</h4>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        @if (Model.Message != "")
+        {
+            <span class="text-danger">@Model.Message</span>
+        }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="SessionUser.Name" class="control-label"></label>
+            <input asp-for="SessionUser.Name" class="form-control" />
+            <span asp-validation-for="SessionUser.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SessionUser.Phone" class="control-label"></label>
+            <input asp-for="SessionUser.Phone" class="form-control" />
+            <span asp-validation-for="SessionUser.Phone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SessionUser.Email" class="control-label"></label>
+            <input asp-for="SessionUser.Email" class="form-control" />
+            <span asp-validation-for="SessionUser.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SessionUser.Password" class="control-label"></label>
+            <input asp-for="SessionUser.Password" class="form-control" />
+            <span asp-validation-for="SessionUser.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group d-flex">
+            <input type="submit" value="Request account" class="btn btn-primary px-5" />
+            <div class="ml-auto">
+                <a asp-page="/Login" class="btn btn-outline-secondary">Have an account?</a>
+            </div>
+        </div>
+    </form>
 
-        <form method="post">
-            @if (Model.Message != "")
-            {
-                <span class="text-danger">@Model.Message</span>
-            }
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SessionUser.Name" class="control-label"></label>
-                <input asp-for="SessionUser.Name" class="form-control" />
-                <span asp-validation-for="SessionUser.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SessionUser.Phone" class="control-label"></label>
-                <input asp-for="SessionUser.Phone" class="form-control" />
-                <span asp-validation-for="SessionUser.Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SessionUser.Email" class="control-label"></label>
-                <input asp-for="SessionUser.Email" class="form-control" />
-                <span asp-validation-for="SessionUser.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SessionUser.Password" class="control-label"></label>
-                <input asp-for="SessionUser.Password" class="form-control" />
-                <span asp-validation-for="SessionUser.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <a asp-page="/Login">Have an account?</a>
-    </div>
-    <div class="row">
-        <a asp-page="/Index">Dashboard</a>
-    </div>
-</body>
-</html>
+</div>
