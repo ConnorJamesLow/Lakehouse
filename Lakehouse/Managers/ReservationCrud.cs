@@ -27,6 +27,10 @@ namespace Lakehouse.Managers
             this._context = dbContext;
         }
 
+        public ReservationCrud()
+        {
+        }
+
         //gets the first Reservation that matches with the id in the database
         //retirns null if an error has happened
         public Reservation GetById(int id)

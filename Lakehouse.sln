@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lakehouse", "Lakehouse\Lakehouse.csproj", "{331D481C-7765-4D2D-A83B-62B205B3D3D9}"
 EndProject
@@ -20,7 +20,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		LessCompiler = 331d481c-7765-4d2d-a83b-62b205b3d3d9
 		SolutionGuid = {70562FCD-5E6F-472F-8879-6164EBF9E33C}
+		LessCompiler = 331d481c-7765-4d2d-a83b-62b205b3d3d9
 	EndGlobalSection
 EndGlobal

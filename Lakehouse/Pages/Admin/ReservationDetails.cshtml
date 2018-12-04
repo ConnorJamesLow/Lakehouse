@@ -1,0 +1,45 @@
+﻿@page
+@model Lakehouse.Pages.App.ReservationDetailsModel
+@{
+    ViewData["Title"] = "Reservations Made";
+    Layout = "~/Pages/layouts/_AdminLayout.cshtml";
+}
+<style>
+    table {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    h4 {
+        padding-top: 20px;
+    }
+
+    .user-text {
+        font-size: 14px;
+    }
+
+    .buttonsBlock {
+        display: flex;
+    }
+
+    .left-spacing {
+        margin-left: 5px;
+    }
+
+    .message-text {
+        color: blue;
+    }
+</style>
+
+<h4>Check Reservations</h4>
+
+<a href="/Admin/AdminDashboard">Back to Dashboard</a>
