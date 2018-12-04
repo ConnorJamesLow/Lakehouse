@@ -1,26 +1,17 @@
 ﻿@page
-@model IndexModel
+@model Lakehouse.Pages.IndexModel
 @{
     ViewData["Title"] = "Home Page";
 }
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div>
-        @Html.Label("Welcome to Dilt's Lake House") <br />
-        <img src = "http://www.homebunch.com/wp-content/uploads/Lake-House.-Rustic-Lake-House-with-Metal-Roof.-Lake-house-with-metal-roof.-The-metal-roof-is-a-standing-seam-metal-roof.-LakeHouse-RusticHouse-MetalRoof-OLSON-LEWIS-Architects..jpg" alt="Lake House Photo" height="400" width="700"/><br />
-        @Html.Label("Please Login or Register using the links below") <br />
-    </div>
+<div class="jumbotron jumbotron-fluid my-2 text-center">
+    <img class="rounded" src="images/front.jpg" alt="Lake House Photo" height="400" /><br />
+    <span>Welcome to Dilt's Lake House. <br /> Please Login or Register using the links below.</span>
+</div>
+<div class="container">
     <div class="row">
-        <a asp-page="/Login">Login</a>
+        <div class="col text-center">
+            <a asp-page="/Login" class="btn btn-outline-secondary" style="width: 100px">Login</a>
+            <a asp-page="/Register" class="btn btn-outline-secondary" style="width: 100px">Register</a>
+        </div>
     </div>
-    <div class="row">
-        <a asp-page="/Register">Register</a>
-    </div>
-</body>
-</html>
+</div>
