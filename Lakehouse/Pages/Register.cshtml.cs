@@ -39,7 +39,7 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            SessionUser.Password = Hasher.Hash(SessionUser.Password);
+            SessionUser.Password = SessionUser.Password;//Hasher.Hash(SessionUser.Password);
             await Task.Run(() =>
             {
                 _userDb.Add(SessionUser);
