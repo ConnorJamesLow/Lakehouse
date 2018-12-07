@@ -2,19 +2,14 @@
 @model Lakehouse.Pages.LogoutModel
 @{
     Layout = "_Layout";
+    ViewData["Title"] = "Logged out";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Logout</title>
-</head>
-<body>
-    <div class="lh-center-node lh-center-text">
-        You have been logged out.<br />
-        <a href="/Login">Log in</a>
+<div class="container">
+    <div class="row">
+        <div class="col m-5 text-center">
+            <h1>You have been logged out.</h1><br />
+            <a class="btn btn-outline-secondary" href="/Login">Log in</a>
+        </div>
     </div>
-</body>
-</html>
+</div>

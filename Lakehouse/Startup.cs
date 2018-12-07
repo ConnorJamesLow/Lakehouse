@@ -32,7 +32,7 @@ namespace Lakehouse
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("jordan")));
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("main")));
 
             services.AddTransient<IUserCrud, UserCrud>();
             services.AddTransient<IReservationCrud, ReservationCrud>();

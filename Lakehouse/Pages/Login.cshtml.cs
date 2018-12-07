@@ -48,7 +48,10 @@ namespace Lakehouse.Pages
                 Message = "Credentials did not match any users.";
                 return Page();
             }
-            var authenticated = Password == dbUser.Password;//await Task.Run(() => Hasher.Compare(Password, dbUser.Password));
+            ConsoleLogger.Out($"Password: {Password} == {dbUser.Password}");
+            var authenticated = await Task.Run(
+                () => Hasher.Compare(Password, dbUser.Password)
+                );
             if (authenticated)
             {
                 _session.SetUser(dbUser, HttpContext.Session);

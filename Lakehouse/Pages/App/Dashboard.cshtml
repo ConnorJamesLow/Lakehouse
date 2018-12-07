@@ -11,7 +11,7 @@
 <p>Hello, @Model.SessionUser.Name.</p>
 
 <div class="row">
-    <div class="col-xs-6 calendar">
+    <div class="col col-xs-6 calendar">
         <div id='calendar'></div>
     </div>
 </div>
@@ -47,7 +47,7 @@
             @foreach (var r in Model.Reservations)
             {
                 @:reservations.push({
-                    @:url: "@(r.User.Name == Model.SessionUser.Name ? $"/Agent/Reservation/{r.ReservationId}" : "")",
+                    @:url: "@(r.User.Name == Model.SessionUser.Name ? $"/App/Reservation/{r.ReservationId}" : "")",
                     @:title:  "@(r.User.Name == Model.SessionUser.Name ? r.User.Name : "Reserved")",
                     @:start: convert("@r.StartDate"),
                     @:end: convert("@r.EndDate")

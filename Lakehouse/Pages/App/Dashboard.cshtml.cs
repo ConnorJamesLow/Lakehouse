@@ -49,7 +49,10 @@ namespace Lakehouse.Pages.App
         public void OnGet()
         {
             SessionUser = _session.GetUser(HttpContext.Session);
-
+            if (SessionUser == null)
+            {
+                RedirectToPage("/Logout");
+            }
             IsHost = SessionUser?.UserRole == Role.Host;
         }
 

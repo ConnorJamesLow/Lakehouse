@@ -19,21 +19,22 @@ namespace Lakehouse.Services
         /// <returns>The hashed value as a string</returns>
         public static string Hash(string raw)
         {
-            // salt value
-            byte[] salt;
-            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            //// salt value
+            //byte[] salt;
+            //new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
 
-            // get hash value
-            var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
-            byte[] hash = pbkdf2.GetBytes(20);
+            //// get hash value
+            //var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
+            //byte[] hash = pbkdf2.GetBytes(20);
 
-            // combine salt and password bytes for later use
-            byte[] hashBytes = new byte[36];
-            Array.Copy(salt, 0, hashBytes, 0, 16);
-            Array.Copy(hash, 0, hashBytes, 16, 20);
+            //// combine salt and password bytes for later use
+            //byte[] hashBytes = new byte[36];
+            //Array.Copy(salt, 0, hashBytes, 0, 16);
+            //Array.Copy(hash, 0, hashBytes, 16, 20);
 
-            // return hashed value
-            return Convert.ToBase64String(hashBytes);
+            //// return hashed value
+            //return Convert.ToBase64String(hashBytes);
+            return raw;
         }
 
         /// <summary>
@@ -44,36 +45,37 @@ namespace Lakehouse.Services
         /// <returns>True if the hashed value matches the raw value</returns>
         public static bool Compare(string raw, string hashedValue)
         {
-            try
-            {
+            return raw == hashedValue;
+            //try
+            //{
 
-                // Extract the bytes
-                byte[] hashBytes = Convert.FromBase64String(hashedValue);
+            //    // Extract the bytes
+            //    byte[] hashBytes = Convert.FromBase64String(hashedValue);
 
-                // Get the salt 
-                byte[] salt = new byte[16];
-                Array.Copy(hashBytes, 0, salt, 0, 16);
+            //    // Get the salt 
+            //    byte[] salt = new byte[16];
+            //    Array.Copy(hashBytes, 0, salt, 0, 16);
 
-                // Compute the hash on the password the user entered 
-                var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
-                byte[] hash = pbkdf2.GetBytes(20);
+            //    // Compute the hash on the password the user entered 
+            //    var pbkdf2 = new Rfc2898DeriveBytes(raw, salt, 1234);
+            //    byte[] hash = pbkdf2.GetBytes(20);
 
-                // Compare the results 
-                for (int i = 0; i < 20; i++)
-                {
-                    if (hashBytes[i + 16] != hash[i])
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (ArgumentNullException e)
-            {
-                ConsoleLogger.Out("No password");
-                return false;
-            }
+            //    // Compare the results 
+            //    for (int i = 0; i < 20; i++)
+            //    {
+            //        if (hashBytes[i + 16] != hash[i])
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
+            //catch (ArgumentNullException e)
+            //{
+            //    ConsoleLogger.Out("No password");
+            //    return false;
+            //}
 
-            return true;
+            //return true;
         }
     }
 }
