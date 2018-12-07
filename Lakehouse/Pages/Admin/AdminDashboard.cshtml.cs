@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Lakehouse.Managers;
+﻿using Lakehouse.Managers;
 using Lakehouse.Models;
 using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lakehouse.Pages.App
 {
@@ -35,17 +34,23 @@ namespace Lakehouse.Pages.App
             //verify user is admin
             if (IsHost())
             {
-
-                Reservations = _reservations.GetAll().Select(reservation => new ReservationWithUser
+                try
                 {
-                    ReservationId = reservation.ReservationId,
-                    UserId = reservation.UserId,
-                    StartDate = reservation.StartDate,
-                    EndDate = reservation.EndDate,
-                    User = _users.GetById(reservation.UserId)
+                    Reservations = _reservations.GetAll().Select(reservation => new ReservationWithUser
+                    {
+                        ReservationId = reservation.ReservationId,
+                        UserId = reservation.UserId,
+                        StartDate = reservation.StartDate,
+                        EndDate = reservation.EndDate,
+                        User = _users.GetById(reservation.UserId)
 
-                }).ToList();
-
+                    }).ToList();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
 
                 return Page();
             }
