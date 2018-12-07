@@ -1,9 +1,10 @@
 ﻿@page
-@model Lakehouse.Pages.Admin.ReservationDetailsModel
+@model Lakehouse.Pages.Admin.ReservationEditModel
 @{
-    ViewData["Title"] = "Reservations Made";
+    ViewData["Title"] = "ReservationEdit";
     Layout = "~/Pages/layouts/_AdminLayout.cshtml";
 }
+
 <style>
     table {
         margin-top: 20px;
@@ -17,6 +18,8 @@
 
     th {
         text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     h4 {
@@ -42,7 +45,7 @@
 
 
 
-<h4>Check Reservations</h4>
+<h4>View Reservation</h4>
 
 @if (Model.Message != null)
 {
@@ -50,40 +53,36 @@
     <p class="message-text">@Model.Message</p>
 }
 
-@if (Model.Reservations != null)
+@if (Model.Reservation != null)
 {
     <table>
         <tr>
             <th>Guest Name</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Options</th>
+            <th>Status</th>
         </tr>
-
-        @foreach (var reservation in Model.Reservations)
-        {
 
         <tr>
             <td>
-                @reservation.User.Name
+                @Model.Reservation.User.Name
             </td>
             <td>
-                @reservation.StartDate
-            </td>
-            <td>
-                @reservation.EndDate
+                <input asp-for="@Model.Reservation.StartDate" class="form-control" />
 
             </td>
             <td>
+                <input asp-for="@Model.Reservation.EndDate" class="form-control" />
 
-                <a class="btn btn-secondary left-spacing" href="/Admin/ReservationEdit?reservationId=@reservation.ReservationId">View / Edit</a>
-
-
+            </td>
+            <td>
+                Pending
 
             </td>
         </tr>
-        }
     </table>
+    <input type="submit" value="Update Reservation" class="btn btn-success" />
+    <br>
 }
 <br>
 <a href="/Admin/AdminDashboard">Back to Dashboard</a>

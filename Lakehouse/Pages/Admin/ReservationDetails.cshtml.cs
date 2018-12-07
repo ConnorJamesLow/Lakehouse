@@ -20,27 +20,44 @@ namespace Lakehouse.Pages.Admin
 
         private readonly IUserCrud _users;
 
+        public string Message { get; set; }
+
         public List<ReservationWithUser> Reservations { get; set; }
 
         private readonly SessionService _session;
 
-        public ReservationDetailsModel(DatabaseContext context)
+        public ReservationDetailsModel(IReservationCrud rCrud, IUserCrud uCrud)
         {
-            _context = context;
+            _users = uCrud;
+            _reservations = rCrud;
             _session = new SessionService();
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            getReservations();
+            if (IsHost())
+            {
+
+                Reservations = _reservations.GetAll().Select(reservation => new ReservationWithUser
+                {
+                    ReservationId = reservation.ReservationId,
+                    UserId = reservation.UserId,
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                    User = _users.GetById(reservation.UserId)
+
+                }).ToList();
+
+
+                return Page();
+            }
+
+            return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
-        public void getReservations()
-        {
+        
 
-        }
-
-        public bool isHost()
+        public bool IsHost()
         {
             User user = _session.GetUser(HttpContext.Session);
             return user?.UserRole == Role.Host;

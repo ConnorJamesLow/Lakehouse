@@ -101,7 +101,7 @@ namespace Lakehouse.Pages.Admin
 
         public void getUsers()
         {
-            Users = _context.User.Where(u => u.UserRole == Role.Unconfirmed).ToList<User>();
+            Users = _context.User.ToList();//_context.User.Where(u => u.UserRole == Role.Unconfirmed).ToList<User>();
 
         }
 

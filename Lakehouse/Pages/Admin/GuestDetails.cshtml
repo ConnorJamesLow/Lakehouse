@@ -1,9 +1,11 @@
 ﻿@page
-@model Lakehouse.Pages.Admin.ReservationDetailsModel
+@model Lakehouse.Pages.Admin.GuestDetailsModel
 @{
-    ViewData["Title"] = "Reservations Made";
+    ViewData["Title"] = "Guest Details";
     Layout = "~/Pages/layouts/_AdminLayout.cshtml";
 }
+
+
 <style>
     table {
         margin-top: 20px;
@@ -42,48 +44,34 @@
 
 
 
-<h4>Check Reservations</h4>
+<h4>Guest Details</h4>
 
-@if (Model.Message != null)
-{
 
-    <p class="message-text">@Model.Message</p>
-}
-
-@if (Model.Reservations != null)
+@if (Model.User != null)
 {
     <table>
         <tr>
-            <th>Guest Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Options</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Password</th>
         </tr>
 
-        @foreach (var reservation in Model.Reservations)
-        {
 
         <tr>
             <td>
-                @reservation.User.Name
+                <a class="user-text">@Model.User.Name</a>
             </td>
             <td>
-                @reservation.StartDate
+                @Model.User.UserRole
             </td>
             <td>
-                @reservation.EndDate
-
+                @Model.User.Password
             </td>
-            <td>
 
-                <a class="btn btn-secondary left-spacing" href="/Admin/ReservationEdit?reservationId=@reservation.ReservationId">View / Edit</a>
-
-
-
-            </td>
         </tr>
-        }
+        
     </table>
 }
 <br>
 <a href="/Admin/AdminDashboard">Back to Dashboard</a>
+

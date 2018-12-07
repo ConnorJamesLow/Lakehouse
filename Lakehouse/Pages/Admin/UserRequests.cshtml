@@ -31,6 +31,7 @@
 
     .buttonsBlock {
         display: flex;
+        justify-content:center;
     }
 
     .left-spacing {
@@ -44,7 +45,7 @@
 
 
 
-<h4>User Request List (Select any guest to view their info)</h4>
+<h4>User Guest List (Select any guest to view their info)</h4>
 
 @if (Model.Message != null)
 {
@@ -66,20 +67,25 @@
 
             <tr>
                 <td>
-                    <a class="user-text">@user.Name</a>
+                  @user.Name
                 </td>
                 <td>
                     @user.UserRole
                 </td>
                 <td class="buttonsBlock">
-                    <form method="POST" asp-page-handler="Approve">
-                        <input type="hidden" name="userId" id="userId" value="@user.UserId" />
-                        <input type="submit" class="btn btn-primary left-spacing" value="Approve" />
-                    </form>
-                    <form method="POST" asp-page-handler="Deny">
-                        <input type="hidden" name="userId" id="userId" value="@user.UserId" />
-                        <input type="submit" class="btn btn-danger left-spacing" value="Deny" />
-                    </form>
+                    @if (user.UserRole == Models.Role.Unconfirmed)
+                    {
+                        <form method="POST" asp-page-handler="Approve">
+                            <input type="hidden" name="userId" id="userId" value="@user.UserId" />
+                            <input type="submit" class="btn btn-primary left-spacing" value="Approve" />
+                        </form>
+                        <form method="POST" asp-page-handler="Deny">
+                            <input type="hidden" name="userId" id="userId" value="@user.UserId" />
+                            <input type="submit" class="btn btn-danger left-spacing" value="Deny" />
+                        </form>
+                    }
+                    <a class="btn btn-secondary left-spacing" href="/Admin/GuestDetails?userId=@user.UserId">View</a>
+
 
                 </td>
 

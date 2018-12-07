@@ -61,13 +61,10 @@
 
         <div class="row admin-btns">
             <div class="col">
-                <a class="btn btn-primary" href="/Admin/UserRequests">View Requests</a>
+                <a class="btn btn-primary" href="/Admin/UserRequests">View Guests</a>
             </div>
             <div class="col">
-                <a class="btn btn-primary">View Guests</a>
-            </div>
-            <div class="col">
-                <a class="btn btn-primary">Update Info</a>
+                <a class="btn btn-primary" href="#">Update Info</a>
             </div>
             <div class="col">
                 <a class="btn btn-primary" href="/Admin/ReservationDetails">Check Reservations</a>
@@ -108,7 +105,7 @@
 
                 @foreach (var r in Model.Reservations)
                 {
-                    @:reservations.push({ title: "Reservation - @r.User.Name", start: convert("@r.StartDate"), end: convert("@r.EndDate")});
+                    @:reservations.push({ url: "/Admin/ReservationEdit?reservationId=@r.ReservationId", title: "Reservation - @r.User.Name", start: convert("@r.StartDate"), end: convert("@r.EndDate")});
                 }
                 console.log(reservations);
 
