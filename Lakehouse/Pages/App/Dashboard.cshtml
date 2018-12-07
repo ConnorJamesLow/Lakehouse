@@ -4,6 +4,65 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Pages/layouts/_AppLayout.cshtml";
 }
+<link href='~/lib/calendar/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/lib/calendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 
 <h2>Dashboard</h2>
 <p>Hello, @Model.SessionUser.Name.</p>
+
+<div class="row">
+    <div class="col-xs-6 calendar">
+        <div id='calendar'></div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+
+    <script src='~/lib/calendar/moment.min.js'></script>
+    <script src='~/lib/calendar/fullcalendar.min.js'></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+            var convert = (date) => {
+
+                date = date.substring(0, date.indexOf(" "));
+                date = date.split('/');
+
+
+                return date[2] + '-' + date[0] + '-' + date[1];
+
+            }
+
+            var reservations = [];
+
+            @foreach (var r in Model.Reservations)
+            {
+                @:reservations.push({
+                    @:url: "@(r.User.Name == Model.SessionUser.Name ? $"/Agent/Reservation/{r.ReservationId}" : "")",
+                    @:title:  "@(r.User.Name == Model.SessionUser.Name ? r.User.Name : "Reserved")",
+                    @:start: convert("@r.StartDate"),
+                    @:end: convert("@r.EndDate")
+                @:});
+            }
+            console.log(reservations);
+
+            $('#calendar').fullCalendar({
+                defaultDate: date,
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: reservations
+            });
+
+        });
+
+    </script>
+}
