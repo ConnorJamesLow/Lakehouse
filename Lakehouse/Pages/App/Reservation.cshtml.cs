@@ -109,6 +109,12 @@ namespace Lakehouse.Pages.App
                 StartDate = StartDate,
                 EndDate = EndDate
             };
+            var checking = _reservations.check(reservation);
+            if (checking)
+            {
+                Message = "Days conflicted";
+                return Page();
+            }
             _reservations.Add(reservation);
             return SessionUser.UserRole == Role.Host ? RedirectToPage("/Admin/Dashboard") : RedirectToPage("/App/Dashboard");
         }

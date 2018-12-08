@@ -14,6 +14,7 @@ namespace Lakehouse.Managers
         Boolean Add(Reservation Reservation);
         Boolean Update(Reservation Reservation);
         Boolean Delete(int id);
+        Boolean check(Reservation Reservation);
     }
 
     public class ReservationCrud : IReservationCrud
@@ -213,6 +214,37 @@ namespace Lakehouse.Managers
                 throw new Exception("invalid ID of" + id + " when calling Delete method in class ReservationCrud");
             }
             return false;
+        }
+
+        public Boolean check(Reservation Reservation)
+        {
+            try
+            { 
+                //make sure that the dates are in the right order
+                if(Reservation.StartDate >= Reservation.EndDate)
+                {
+                    return true;
+                }
+                //first check if start date of reservation is in existing time
+                //secend check if the end date of reservation is in existing time
+                //third check if the start date and end date of reservation surrounds the existing time
+                Reservation nulled = _context.Reservation.FirstOrDefault(e => 
+                Reservation.StartDate >= e.StartDate && Reservation.StartDate <= e.EndDate ||
+                Reservation.EndDate >= e.StartDate && Reservation.EndDate <= e.EndDate ||
+                Reservation.StartDate < e.StartDate && Reservation.EndDate > e.EndDate
+                );
+                return nulled != null;
+            }
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                Console.WriteLine(sqlEx + "\n");
+                throw new Exception("Incorrect connection string. Fix the problem by opening DatabaseContext in Managers folder. Then alter line 23 to connect to the correct database.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + "\n");
+                throw new Exception("when calling Check method in class ReservationCrud");
+            }
         }
     }
 }
