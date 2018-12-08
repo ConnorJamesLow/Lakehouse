@@ -55,34 +55,41 @@
 
 @if (Model.Reservation != null)
 {
-    <table>
-        <tr>
-            <th>Guest Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-        </tr>
+    <form method="POST">
 
-        <tr>
-            <td>
-                @Model.Reservation.User.Name
-            </td>
-            <td>
-                <input asp-for="@Model.Reservation.StartDate" class="form-control" />
+        <input asp-for="Reservation.UserId" value="@Model.Reservation.UserId" type="hidden"/>
+        <input asp-for="Reservation.ReservationId" value="@Model.Reservation.ReservationId" type="hidden"/>
 
-            </td>
-            <td>
-                <input asp-for="@Model.Reservation.EndDate" class="form-control" />
+        <table>
+            <tr>
+                <th>Guest Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+            </tr>
 
-            </td>
-            <td>
-                Pending
+            <tr>
+                <td>
+                    @Model.Reservation.User.Name
+                </td>
+                <td>
+                    <input asp-for="Reservation.StartDate" class="form-control" />
 
-            </td>
-        </tr>
-    </table>
-    <input type="submit" value="Update Reservation" class="btn btn-success" />
-    <br>
-}
-<br>
-<a href="/Admin/AdminDashboard">Back to Dashboard</a>
+                </td>
+                <td>
+                    <input asp-for="Reservation.EndDate" class="form-control" />
+
+                </td>
+                <td>
+                    Pending
+
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Update Reservation" class="btn btn-success" />
+        <br>
+    </form>
+        }
+        <br>
+        <a href="/Admin/AdminDashboard">Back to Dashboard</a>

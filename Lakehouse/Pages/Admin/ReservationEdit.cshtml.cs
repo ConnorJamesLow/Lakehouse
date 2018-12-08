@@ -21,6 +21,7 @@ namespace Lakehouse.Pages.Admin
 
         public string Message { get; set; }
 
+        [BindProperty]
         public ReservationWithUser Reservation { get; set; }
 
         private readonly SessionService _session;
@@ -33,6 +34,31 @@ namespace Lakehouse.Pages.Admin
             _users = uCrud;
             _reservations = rCrud;
             _session = new SessionService();
+        }
+
+        public IActionResult OnPost()
+        {
+
+            if (IsHost() || IsCreator())
+            {
+
+                Reservation dbReservation = _context.Reservation.SingleOrDefault(r => r.ReservationId == Reservation.ReservationId);
+
+                if (dbReservation != null)
+                {
+                    dbReservation.StartDate = Reservation.StartDate;
+                    dbReservation.EndDate = Reservation.EndDate;
+
+                    _context.SaveChanges();
+
+                    return RedirectToPage("/Admin/AdminDashboard");
+                }
+
+                return RedirectToPage("/App/Error", new { error = "Failed to update reservation" });
+
+            }
+
+            return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
         public IActionResult OnGet(int reservationId)
