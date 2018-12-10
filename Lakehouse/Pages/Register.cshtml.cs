@@ -32,7 +32,7 @@ namespace Lakehouse.Pages
                 return Page();
             }
 
-            var dbUser = _userDb.GetByName(SessionUser.Name) ?? null;
+            User dbUser = _userDb.GetByName(SessionUser.Name);
             if (dbUser != null)
             {
                 Message = "Name is already in use.";

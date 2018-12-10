@@ -52,7 +52,7 @@ namespace Lakehouse.Pages
             var authenticated = await Task.Run(
                 () => Hasher.Compare(Password, dbUser.Password)
                 );
-            if (true)
+            if (authenticated)
             {
                 _session.SetUser(dbUser, HttpContext.Session);
                 switch (dbUser.UserRole)

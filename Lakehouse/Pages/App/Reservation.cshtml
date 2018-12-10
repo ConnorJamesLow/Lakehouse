@@ -1,8 +1,9 @@
 ﻿@page "{id:int?}"
+@using Lakehouse.Models
 @model Lakehouse.Pages.App.ReservationModel
 @{
     ViewData["Title"] = "Reservation";
-    Layout = "~/Pages/layouts/_AppLayout.cshtml";
+    Layout = Model.SessionUser.UserRole == Role.Host ? "~/Pages/layouts/_AdminLayout.cshtml" : "~/Pages/layouts/_AppLayout.cshtml";
 }
 <link href='~/lib/calendar/fullcalendar.min.css' rel='stylesheet' />
 <link href='~/lib/calendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
@@ -10,7 +11,7 @@
 <em>Choose a start and end date below</em>
 <br />
 <br />
-<span>@Model.Message</span>
+<span class="alert-danger">@Model.Message</span>
 <div class="row">
     <div class="col-md-6">
         <form method="post">
@@ -46,16 +47,39 @@
 
 <script>
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+        var convert = (date) => {
+
+            date = date.substring(0, date.indexOf(" "));
+            date = date.split('/');
+
+
+            return date[2] + '-' + date[0] + '-' + date[1];
+
+        }
+
+        var reservations = [];
+
+        @foreach (var r in Model.Reservations)
+        {
+            @:reservations.push({
+            @:url: "@(r.User.Name == Model.SessionUser.Name ? $"/App/Reservation/{r.ReservationId}" : "")",
+            @:title:  "@(r.User.Name == Model.SessionUser.Name ? r.User.Name : "Reserved")",
+            @:start: convert("@r.StartDate"),
+            @:end: convert("@r.EndDate")
+            @:});
+        }
+        console.log(reservations);
 
         $('#calendar').fullCalendar({
             defaultDate: date,
             editable: true,
             eventLimit: true, // allow "more" link when too many events
-            events: []
+            events: reservations
         });
 
     });

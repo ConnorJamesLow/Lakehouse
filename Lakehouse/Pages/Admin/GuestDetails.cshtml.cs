@@ -12,6 +12,8 @@ namespace Lakehouse.Pages.Admin
 {
     public class GuestDetailsModel : PageModel
     {
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         private readonly DatabaseContext _context;
 
@@ -31,6 +33,11 @@ namespace Lakehouse.Pages.Admin
 
         public IActionResult OnGet(int userId)
         {
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             if (isHost())
             {
 

@@ -11,6 +11,8 @@ namespace Lakehouse.Pages.Admin
     public class UserRequestsModel : PageModel
     {
 
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         public List<User> Users { get; set; }
 
@@ -29,6 +31,11 @@ namespace Lakehouse.Pages.Admin
 
         public IActionResult OnGet()
         {
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             if (isHost())
             {
                 getUsers();

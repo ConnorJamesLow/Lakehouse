@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Lakehouse.Pages.App
 {
     public class DashboardModel : PageModel
     {
-        public User SessionUser;
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         private readonly IReservationCrud _reservations;
         private readonly IUserCrud _users;
@@ -46,14 +48,15 @@ namespace Lakehouse.Pages.App
 
 
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             SessionUser = _session.GetUser(HttpContext.Session);
-            if (SessionUser == null)
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
             {
-                RedirectToPage("/Logout");
+                return RedirectToPage("/Logout");
             }
             IsHost = SessionUser?.UserRole == Role.Host;
+            return Page();
         }
 
 

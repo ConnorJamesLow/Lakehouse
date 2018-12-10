@@ -1,22 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Lakehouse.Managers;
 using Lakehouse.Models;
 using Lakehouse.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lakehouse.Pages.Admin
 {
     public class ReservationDetailsModel : PageModel
     {
-        public List<User> Users { get; set; }
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         private readonly DatabaseContext _context;
 
-        private IReservationCrud _reservations;
+        private readonly IReservationCrud _reservations;
 
         private readonly IUserCrud _users;
 
@@ -35,6 +34,11 @@ namespace Lakehouse.Pages.Admin
 
         public IActionResult OnGet()
         {
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             if (IsHost())
             {
 
@@ -55,7 +59,7 @@ namespace Lakehouse.Pages.Admin
             return RedirectToPage("/App/Error", new { error = "You don't have permission to view this page" });
         }
 
-        
+
 
         public bool IsHost()
         {

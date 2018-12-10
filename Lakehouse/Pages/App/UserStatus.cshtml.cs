@@ -1,5 +1,6 @@
 ﻿using Lakehouse.Models;
 using Lakehouse.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Lakehouse.Pages.App
@@ -13,14 +14,17 @@ namespace Lakehouse.Pages.App
             _session = new SessionService();
         }
 
+        [BindProperty]
         public User SessionUser { get; set; }
-        public void OnGet()
+
+        public IActionResult OnGet()
         {
             SessionUser = _session.GetUser(HttpContext.Session);
-            if (SessionUser == null)
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
             {
-                RedirectToPage("Login");
+                return RedirectToPage("/Logout");
             }
+            return Page();
         }
     }
 }

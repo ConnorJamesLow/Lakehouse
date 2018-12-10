@@ -12,6 +12,8 @@ namespace Lakehouse.Pages.App
     public class AdminDashboardModel : PageModel
     {
 
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         public SessionService _session;
         private readonly IReservationCrud _reservations;
@@ -30,7 +32,11 @@ namespace Lakehouse.Pages.App
 
         public IActionResult OnGet()
         {
-
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             //verify user is admin
             if (IsHost())
             {

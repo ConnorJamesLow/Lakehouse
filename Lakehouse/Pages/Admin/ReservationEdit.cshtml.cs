@@ -15,11 +15,14 @@ namespace Lakehouse.Pages.Admin
 
         private readonly DatabaseContext _context;
 
-        private IReservationCrud _reservations;
+        private readonly IReservationCrud _reservations;
 
         private readonly IUserCrud _users;
 
         public string Message { get; set; }
+
+        [BindProperty]
+        public User SessionUser { get; set; }
 
         [BindProperty]
         public ReservationWithUser Reservation { get; set; }
@@ -64,7 +67,11 @@ namespace Lakehouse.Pages.Admin
         public IActionResult OnGet(int reservationId)
         {
 
-
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             Reservation res = _context.Reservation.SingleOrDefault(r => r.ReservationId == reservationId);
 
             if (res != null)

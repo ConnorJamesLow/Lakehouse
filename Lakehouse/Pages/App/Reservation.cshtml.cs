@@ -4,9 +4,11 @@ using Lakehouse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Lakehouse.Pages.App
@@ -26,6 +28,7 @@ namespace Lakehouse.Pages.App
         [BindProperty]
         public string Message { get; set; }
 
+        [BindProperty]
         public User SessionUser { get; set; }
 
         /// <summary>
@@ -37,6 +40,7 @@ namespace Lakehouse.Pages.App
         private readonly SessionService _session;
         private readonly IUserCrud _users;
         private readonly IReservationCrud _reservations;
+        public List<ReservationWithUser> Reservations { get; set; }
 
 
         public ReservationModel(IReservationCrud rCrud, IUserCrud uCrud)
@@ -45,11 +49,33 @@ namespace Lakehouse.Pages.App
             _session = new SessionService();
             _users = uCrud;
             _reservations = rCrud;
+            try
+            {
+
+                Reservations = _reservations.GetAll().Select(reservation => new ReservationWithUser
+                {
+                    ReservationId = reservation.ReservationId,
+                    UserId = reservation.UserId,
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                    User = _users.GetById(reservation.UserId)
+
+                }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public IActionResult OnGet()
         {
-
+            SessionUser = _session.GetUser(HttpContext.Session);
+            if (SessionUser == null || SessionUser.Name.Trim().Length == 0)
+            {
+                return RedirectToPage("/Logout");
+            }
             try
             {
                 // check credentials in session
@@ -116,7 +142,7 @@ namespace Lakehouse.Pages.App
                 return Page();
             }
             _reservations.Add(reservation);
-            return SessionUser.UserRole == Role.Host ? RedirectToPage("/Admin/Dashboard") : RedirectToPage("/App/Dashboard");
+            return SessionUser.UserRole == Role.Host ? RedirectToPage("/Admin/AdminDashboard") : RedirectToPage("/App/Dashboard");
         }
     }
 }
